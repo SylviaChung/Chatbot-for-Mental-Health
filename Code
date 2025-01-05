@@ -1,0 +1,628 @@
+# PhysicalHealthAdvisor():
+
+import pandas as pd
+import os
+
+class PhysicalHealthAdvice:
+
+    physicalHealthResponse = {}
+
+    def __init__(self):
+        print("""To advise you on your physical health
+I must get to know you better,
+please answer the following questions""")
+ self.ask_questions()
+
+    def ask_questions(self):
+        self.category = ["sleep", "nutrition", "exercise", "BMI"]
+
+        for i in self.category:
+            while True:
+                try:
+                    response = int(input(f"chatbot: rate your {i} from 1 to 5, 1 is the worst, 5 is the best... input here: "))
+
+                    if 1 <= response <= 5:
+                        PhysicalHealthAdvice.physicalHealthResponse[i] = response # to store the user response
+
+                        if i == "sleep":
+                            self.sleep()
+                        if i == "nutrition":
+                            self.nutrition()
+                        if i == "exercise":
+                            self.exercise()
+                        if i == "MBI":
+                            self.BMI()
+
+                        break
+                    else:
+                        print("Invalid input. Please enter a number between 1 and 5.")
+
+                except ValueError:
+                    print("Invalid input. Please enter a valid number.")
+
+        PH = pd.DataFrame([PhysicalHealthAdvice.physicalHealthResponse],index=[0])
+        if os.path.exists("PH_individual.xlsx"):
+          existing_data = pd.read_excel("PH_individual.xlsx")
+          PH = pd.concat([existing_data, PH], ignore_index=True)
+
+        PH.to_excel("PH_individual.xlsx", index=False)
+def sleep(self):
+        rating = PhysicalHealthAdvice.physicalHealthResponse["sleep"]
+        print("as regarding your sleep:")
+        if rating == 1:
+            print ("your sleep quality is not good, I can tell you counting sheep until dawn. Maybe this implies that you were a shepherd in a previous life. ")
+        if rating == 2:
+            print ("your sleep quality can be improve by taking hot bath before sleep to relax your mind and body")
+        if rating == 3:
+            print("your sleep quality is neutral, try to create a bedtime routine, and don't use electronics right before sleep.")
+        if rating == 4:
+            print("your sleep quality is not bad, you can immerse yourself in soft music to enhance relaxation to sleep better!")
+        if rating == 5:
+            print("your sleep quality is as awesome as sleeping Beauty!I don't want to be your prince to wake you up.keep mainting a regular sleep schedule!")
+
+    def nutrition(self):
+        rating = PhysicalHealthAdvice.physicalHealthResponse["nutrition"]
+        print("as regarding your nutrition:")
+        if rating == 1:
+            print ("you really need to take in balanced nutrition, vitamins, and water. avoid coca cola and Pepsi.")
+        if rating == 2:
+            print( "There is a lot of room for improvement.First, don't eat sweet or fried food; second, drink 2000ml water per day; third, eat five fruits and vegetables every day.")
+        if rating == 3:
+            print ("not bad! you can improve by eating more vegetable and fruit!")
+        if rating == 4:
+            print("Great!to improve furthur, you can try some plant-based meat, or try some health snack like nuts.")
+        if rating == 5:
+            print("you are really healthy! keep maintaining!")
+
+    def exercise(self):
+        rating = PhysicalHealthAdvice.physicalHealthResponse["exercise"]
+        print("as regarding your exercises:")
+        if rating == 1:
+            print("build your exercise weekly schedule as the following example: Monday - walk for 2 hour, Tuesday - run for 1 hour, Wednesday - do yoga for 1 hour, etc. ")
+        if rating == 2:
+            print("you need to increase exercise frequency, try to start walking 10000 steps a day.")
+        if rating == 3:
+            print("you are on a good way, try Engaging in aerobic exercise and strength training can help different parts of the body")
+        if rating == 4:
+            print("awesome! all you have to do is maintain a consistent exercise habit")
+        if rating == 5:
+            print("You take exercise seriously like an Olympic athlete.Keep maintaing and don't forget to take moderate rest")
+
+    def BMI(self):
+
+        rating = PhysicalHealthAdvice.physicalHealthResponse["BMI"]
+
+        print("as regarding your BMI:")
+        if rating == 1:
+            print ("Did I read correctly? 1? Do you know that your health is gone forever like your ex?")
+        if rating == 2:
+            print("this is below average.you can increase more whole food, do not eat processed food, and start going to gym.")
+        if rating == 3:
+            print("this is average.try to incorporate both cardio and strength training into your routine.")
+        if rating == 4:
+            print("you can consume more lean proteins and vegetables, and increase the frequency to go to gym.")
+        if rating == 5:
+            print("your body is as good as a bodybuilder. Keep exercising regularly, and eat on a balanced diet")
+
+# ===================================================================================================
+# MentalHealthAdvisor():
+
+class MentalHealthAdvisor:
+
+    mentalHealthResponse = {}
+
+    def __init__(self):
+        self.topics = {
+            "sleep": "How have you been sleeping lately?",
+            "anxiety": "How do you feel about your anxiety levels these days?",
+            "mood": "Can you tell me about your overall mood recently?",
+            "stress": "How have you been managing stress?",
+            "energy": "How has your energy level been lately?"
+        }
+
+        self.responses = {
+            "sleep": {
+                "good": "Great to hear your sleep is good!😀 Keep maintaining a healthy bedtime routine.",
+                "not bad": "Great to hear your sleep is good!😀 Keep maintaining a healthy bedtime routine.",
+                "restless": "Restless sleep can be tough. Try meditating before bed.🧘🧘🧘",
+                "bad": "If your sleep is poor, consider adjusting your sleep routine or trying relaxation techniques.🛏️",
+                "tired": "If you're feeling tired despite sleep, consider changing your overall stress or daily habits🫂.",
+                "better": "It's great that you're feeling your sleep has improved! Keep working on a consistent routine.🌙",
+                "hard to sleep": "Difficulty falling asleep can be frustrating. Try creating a relaxing pre-bed routine.🛀",
+                "wake up often": "Waking up frequently can disrupt your rest. Consider limiting screen time before bed.📵"
+            },
+            "anxiety": {
+                "high": "It sounds like anxiety might be challenging. Deep breathing or grounding exercises can help🫂.",
+                "lot": "Anxiety may be overwhelming. Try grounding exercises and mindfulness to help manage it.😌",
+                "manageable": "Anxiety is normal occasionally. Taking short breaks and self-care can make a difference.😌😌",
+                "feeling anxious": "It's normal to feel anxious sometimes. Try focusing on breathing or journaling.🖊️",
+                "overwhelmed": "You might be feeling overwhelmed. Break things down into smaller steps and practice self-care.💆",
+                "constant": "It sounds like anxiety is a constant issue for you. Consider mindfulness or talking to a therapist.🗣️"
+            },
+            "mood": {
+                "happy": "It's wonderful that you're feeling good! Keep focusing on the things that bring you joy.😀😀",
+                "not bad": "It's wonderful that you're feeling good! Keep focusing on the things that bring you joy.😀😀",
+                "sad": "I'm sorry to hear that. Talking with someone you trust could help lift your mood.🫂🫂",
+                "irritable": "It sounds like stress might be impacting you.🙁Taking short breaks or breathing exercises can help.",
+                "neutral": "A neutral mood is okay. Stay mindful of your feelings and continue taking care of yourself.☺️",
+                "stressed": "It seems like stress might be affecting your mood. Try relaxation techniques or talking things out.😓",
+                "down": "If you're feeling down, it might help to express your feelings or engage in activities you enjoy.🫂",
+                "frustrated": "Frustration can be draining. Take time for self-care or talk to someone to vent.💭"
+            },
+            "stress": {
+                "overwhelmed": "Managing stress can be hard. Consider journaling or taking some time to relax.🫂🫂",
+                "manageable": "It's good that you're managing stress. Keep prioritizing self-care.😃",
+                "low": "Minimal stress is a great sign! Stay balanced to keep things in check.🥳",
+                "high": "High stress levels can take a toll on your well-being. Try practicing deep breathing exercises.🧘",
+                "consistent": "Managing stress consistently is great. Continue with your stress management techniques!🧘‍♀️",
+                "burnout": "Burnout can be tough. It’s important to take breaks and practice relaxation techniques.💆‍♂️",
+                "pressure": "Pressure can build stress. Try breaking down tasks and focus on manageable steps.📝"
+            },
+            "energy": {
+                "high": "Awesome! A good routine and balanced diet can help sustain your energy.🥳🥳🥳",
+                "low": "Low energy can be challenging. A deep sleep 😴and a good meal might help.",
+                "inconsistent": "Inconsistent energy is common. A consistent sleep and activity routine might help.🫂",
+                "fatigued": "Feeling fatigued can be a sign of stress or poor sleep. Try focusing on a balanced routine.🛏️",
+                "energetic": "That's great! Keep up the high energy with activities that you enjoy.🌟",
+                "drained": "Feeling drained can be caused by stress or lack of rest. Make sure to prioritize self-care.🫂",
+                "fluctuating": "Energy fluctuations are normal. Try staying active and ensuring a balanced diet.🥗"
+            }
+        }
+        self.chat()
+def analyze_input(self, user_input, topic):
+        user_input = user_input.lower()
+        user_words = set(user_input.split())
+
+        for pattern, response in self.responses[topic].items():
+            pattern_words = set(pattern.split())
+
+            if user_words & pattern_words and "none" not in user_words:
+                return response
+
+        return "Thank you for sharing. Anyway, please take care of yourself."
+
+    def chat(self):
+        print("Hello! Please talk to me about your mental health! I hope I can help you!")
+        overall_feedback = {}
+
+        #each topic
+        for topic, question in self.topics.items():
+            print(f"\n{question}")
+            user_input = input("You: ")
+            feedback = self.analyze_input(user_input, topic)
+            print(f"Chatbot: {feedback}")
+            overall_feedback[topic] = feedback
+            # to store the user response
+            MentalHealthAdvisor.mentalHealthResponse[topic] = user_input
+
+        MH =pd.DataFrame([MentalHealthAdvisor.mentalHealthResponse])
+
+        if os.path.exists("mental_health_responses.xlsx"):
+          existing_data = pd.read_excel("mental_health_responses.xlsx")
+          MH = pd.concat([existing_data, MH], ignore_index=True)
+
+        MH.to_excel("mental_health_responses.xlsx", index=False)
+
+        # Summary
+        print("\n--- Summary of Your Mental Health Check-in ---")
+        for topic, feedback in overall_feedback.items():
+            print(f"{topic.capitalize()}: {feedback}")
+
+        print(
+            "\nRemember, it’s always okay to reach out to a professional if you need more support. Take care of yourself!")
+
+# ==========================================================================================================
+# SocialHealthAdvisor():
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+class Question:
+    def __init__(self, question_text, short_label, options, responses):
+        self.question_text = question_text  # Question setting text
+        self.short_label = short_label  # Visualization labels for each question
+        self.options = options  # Options for each question
+        self.responses = responses  # Response for each option
+
+    def ask(self):  # Giving the question texts and getting users' answers
+        print(self.question_text)
+        print("Options: " + ", ".join(self.options))
+        while True:  # Loop until the user inputs a valid response
+            user_input = input("Your response: ").strip().lower()  # Adjust to a unified format
+            if user_input in self.responses:
+                print("\n" + self.responses[user_input] + "\n")
+                return user_input
+            else:
+                print("❌ Invalid Choice. Please select a valid option from the list.")
+
+class SocialHealthChatbot:
+    socialHealthresponse = []
+    def __init__(self):
+        self.questions = self.create_questions()
+        # self.user_responses = []
+        self.run()
+
+    def create_questions(self):
+        return [
+            Question("How often do you interact with friends or family?", "Interaction Ability",
+                     ["rarely", "occasionally", "sometimes", "often", "very often"], {
+                         "rarely": "Interacting with friends and family is crucial for emotional well-being. Try scheduling regular calls or meetups.",
+                         "occasionally": "Consider making more frequent efforts to connect with loved ones. Even small gestures can strengthen bonds.",
+                         "sometimes": "You’re doing fine, but increasing the frequency of interactions could enhance your social health.",
+                         "often": "Good job! Maintaining regular contact with friends and family positively impacts your social well-being.",
+                         "very often": "Excellent! Your active engagement with friends and family demonstrates strong social health."
+                     }),
+            Question("How comfortable are you sharing your feelings with others?", "Emotional Openness",
+                     ["not comfortable", "somewhat comfortable", "neutral", "comfortable", "very comfortable"], {
+                         "not comfortable": "Consider starting with small, non-sensitive topics to build confidence in sharing your feelings.",
+                         "somewhat comfortable": "You’re making progress! Journaling or practicing with a trusted person can help improve your comfort level.",
+                         "neutral": "You’re on the right track. Reflecting on your emotions and sharing them gradually can strengthen connections.",
+                         "comfortable": "Great! Being able to share feelings comfortably is a key aspect of strong relationships.",
+                         "very comfortable": "Fantastic! Your openness and emotional sharing are essential for maintaining healthy relationships."
+                     }),
+            Question("How often do you participate in group activities or social events?", "Social Engagement",
+                     ["rarely", "occasionally", "sometimes", "often", "very often"], {
+                         "rarely": "Participating in group activities can help build your social network. Start with events that match your interests.",
+                         "occasionally": "You’re making some effort! Try attending one or two group activities per month to expand your connections.",
+                         "sometimes": "Good work! Increasing your involvement in group activities could further enhance your social health.",
+                         "often": "Well done! Regular participation in social events is a great way to stay connected and engaged.",
+                         "very often": "Excellent! Your frequent involvement in group activities shows strong social engagement."
+                     }),
+            Question("How strong is your support network when facing challenges?", "Support Network",
+                     ["very weak", "weak", "moderate", "strong", "very strong"], {
+                         "very weak": "Start identifying a few trusted individuals you can rely on for support. Building a strong network takes time.",
+                         "weak": "Consider reaching out to close friends or family to share your thoughts. Strengthening existing relationships is key.",
+                         "moderate": "You have a decent support network, but there’s room for growth. Focus on nurturing these connections further.",
+                         "strong": "Good job! A strong support network is vital for overcoming challenges. Keep nurturing these relationships.",
+                         "very strong": "Amazing! A robust support network is a cornerstone of excellent social health."
+                     }),
+            Question("How well do you maintain healthy boundaries in relationships?", "Boundary Management",
+                     ["poorly", "somewhat well", "neutral", "well", "very well"], {
+                         "poorly": "Learning to say 'no' and communicating your needs respectfully can help establish healthy boundaries.",
+                         "somewhat well": "You’re improving! Consider identifying areas where boundaries are weak and focus on those.",
+                         "neutral": "You’re doing okay. Reading about boundary-setting techniques might help you improve further.",
+                         "well": "Good job! Maintaining boundaries is an essential skill for healthy relationships. Keep it up!",
+                         "very well": "Fantastic! Your ability to maintain healthy boundaries shows strong self-awareness and respect for others."
+                     }),
+        ]
+
+    def start_chat(self):
+        print("Let's move to the Social Health evaluation section! Please input the answer 🌟")
+        for question in self.questions:
+            user_response = question.ask()
+            # self.user_responses.append(user_response)
+            SocialHealthChatbot.socialHealthresponse.append(user_response)
+def evaluate_social_health(self):
+        print("\nEvaluating your social health...\n")
+        health_score = 0
+        scores = []
+
+        # for response in self.user_responses:
+        for response in SocialHealthChatbot.socialHealthresponse:
+            if response in ["very often", "very comfortable", "very strong", "very well"]:
+                score = 3
+            elif response in ["often", "neutral", "comfortable", "strong", "well"]:
+                score = 2
+            elif response in ["sometimes", "occasionally", "somewhat comfortable", "weak", "moderate", "somewhat well",
+                              "neutral"]:
+                score = 1
+            elif response in ["rarely", "not comfortable", "very weak", "poorly"]:
+                score = 0
+            scores.append(score)
+            health_score += score
+
+        # Limit the total health score to 10
+        health_score = min(health_score, 10)
+
+        print("\nYour total social health score: {:.1f}/10\n".format(health_score))
+
+        if health_score >= 9:
+            print("👍 Congratulations! Your social health is excellent!")
+        elif 7 <= health_score < 9:
+            print("👍 Your social health is very good, but there’s room for improvement.")
+        elif 5 <= health_score < 7:
+            print("🙂 Your social health is average. Consider making more effort in social interactions.")
+        elif 3 <= health_score < 5:
+            print("😐 Your social health needs improvement. Consider engaging in more social activities.")
+        else:
+            print("😟 Your social health is in a critical state. Focus on building stronger connections.")
+
+        return scores
+
+    def visualize_results(self, scores):
+        labels = [q.short_label for q in self.questions]
+
+        # Create radar chart
+        angles = np.linspace(0, 2 * np.pi, len(labels), endpoint=False).tolist()
+        scores += scores[:1]  # Close the circle
+        angles += angles[:1]  # Close the circle
+
+        fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
+        ax.plot(angles, scores, color='blue', linewidth=2, linestyle='solid')
+        ax.fill(angles, scores, color='skyblue', alpha=0.4)
+        ax.set_yticks([1, 2, 3])
+        ax.set_yticklabels(['Low', 'Medium', 'High'], color="grey", fontsize=10)
+        ax.set_xticks(angles[:-1])
+        ax.set_xticklabels(labels, fontsize=12)
+        ax.set_title("Social Health Evaluation", size=16, pad=20)
+        plt.show()
+
+    def run(self):
+        self.start_chat()  # Conduct the chat first
+        scores = self.evaluate_social_health()  # Get the scores for evaluation
+        self.visualize_results(scores)  # Visualize results
+
+# =================================================================================================================================
+#BehaviouralHealthAdvisor():
+
+class Behavioural_health:
+    individual = []
+    lifestyle = ["active,healthy", "minimalist", "materialist", "nomadic", "sustainable", "social", "family-centric",
+                 "adventurous", "frugal", "luxury", "survivalist", "tech-driven"]
+    patterns = ["passive aggressive tendencies", "hostility", "codependency traits", "quick tempered",
+                "acting on impulse", "self-sabotage", "attracted to the same type of person"]
+
+    def __init__(self):
+        print("""You have selected the behavioral health advice""")
+        self.Overview()
+        self.Questions()
+        self.lifestyle_adv()
+        self.substance_adv()
+        self.patterns_adv()
+        self.relationship_adv()
+
+    def Questions(self):
+        print("""Let me get to know you a bit first!
+        Tell me a bit about yourself""")
+
+        while True:
+            print("What is your lifestyle, type ask to get a list of lifestyles")
+            self.lifestyle = input().lower()
+            if self.lifestyle == "ask":
+                print(Behavioural_health.lifestyle)
+            if self.lifestyle not in Behavioural_health.lifestyle and self.lifestyle != "ask":
+                print("error, try again")
+            if self.lifestyle in Behavioural_health.lifestyle:
+                break
+
+        print(
+            "Do you take any illegal substances yes, no or x if prefer not to answer? (this information will not be shared with the authorities as subject to the privacy pledge)?")
+        self.substance_use = input().lower()
+
+        while True:
+            print(
+                "On the scale from 0 - 100 do you consider your behavioural patterns healthy? (type ask to get a list of examples of behavioural patterns")
+            self.beh_patterns = input()
+
+            if self.beh_patterns == "ask":
+                print(Behavioural_health.patterns)
+                continue
+            if 0 <= int(self.beh_patterns) <= 100:
+                break
+
+        print("do you struggle building interpersonal relationships?")
+        self.interpersonal_rel = input().lower()
+
+        print("Thank you for answering")
+
+        Behavioural_health.individual.append(
+            {"lifestyle": self.lifestyle, "substance use": self.substance_use,
+             "behavioral patterns": int(self.beh_patterns), "interpersonal relationships": self.interpersonal_rel})
+
+    def Overview(self):
+        while True:
+            print(
+                "to learn about the behavioral health press type 1 otherwise press 2 to review the options of available advice, 3 for advice")
+            x = int(input("type here "))
+            if x == ValueError:
+                print("please enter a number as instructed above")
+
+            if x == 1:
+                print(""" Behavioral health is a key component of overall health.
+Promoting positive behavioral health includes addressing factors at multiple levels,
+including social determinants of health—supporting the environments where we live, work, learn, and play.
+ """)
+            if x == 2:
+                print(
+                    "I am programmed to give advice on your lifestyle, substance use if any, behavioral patterns and interpersonal relationships")
+
+            if x == 3:
+                print("Oki Doki! let's get on with the advice :)")
+                break
+ def lifestyle_adv(self):
+        no_judgement = ["active", "healthy", "sustainable", "adventurous", ]
+        min_judgement = ["social", "family-centric"]
+        more_judgement = ["materialist", "frugal", "luxury", "minimalist"]
+        cool = ["nomadic", "survivalist"]
+        nut_job = ["tech-driven"]
+
+        lifestyle1 = Behavioural_health.individual[0]['lifestyle']
+        print("you have indicated your lifestyle to be", lifestyle1)
+        print("do you want me to advise you?")
+        adv = input().lower()
+        if adv == "yes":
+
+            if lifestyle1 in no_judgement:
+                print("""You're doing everything great! never forget that being active means being healthy and vice versa,
+            whether its being active physically or socially responsibly, you will reap the benefits of your engagement
+            no matter your goal!
+            My programmer always said: life is like a box of chocolates. You never know what you're gonna get.
+            Stay on your course and stay optimistic""")
+            if lifestyle1 in min_judgement:
+                print("""Connections are important, remember that those closest around you are your best individuals
+            never let them down, and in turn they won't let you down either. In your hour of need they will be the
+            ones you can reach out to!""")
+            if lifestyle1 in more_judgement:
+                print("""Material possessions are not the key to life!!! whether you are choosing to live in excess or
+            the bare minimum, remember that you should always strive for a healthy balance, modesty compliments
+            just about anybody, whereas those that are greedy pay twice and those who live in excess go to hell!""")
+            if lifestyle1 in cool:
+                print("""My programmer told me that life is like a box of chocolates, you never know what you will get
+            meaning that by preparing yourselves for any scenarios, and never settling, people with your life style
+            are best suited to overcome the downturns of life! But never forget about those around you, they are your
+            bread and they are your water in the desert that we call life""")
+            if lifestyle1 in nut_job:
+                print("""Get out from your mothers attic and get a life! what will you do if the electricity cuts off as
+            a result of a powerful magnetic storm? do you even know what a magnetic storm is??? come onnnn you are at the
+            mercy of the sun any given day, should it send out a nice juicy flare our way, your life is doomed!
+            do you even know how to cook? reflect on your life choices! learn how to fish in rl not in minecraft""")
+        else:
+            print("okay lets skip...")
+ def substance_adv(self):
+        substance = Behavioural_health.individual[0]['substance use']
+        print("your response to taking illegal substances was:", substance)
+        print("do you want me to advise you?")
+        adv_s = input().lower()
+        if adv_s == "yes":
+
+            if self.substance_use == "no":
+                print("""Goodman yourself! stay away from those things as they can kill! Weed alone! One day you think its harmless
+             and take a pull of a joint! the next day you fight a grizzly bear with an axe who's actually your underage son(surprise surprise! it causes schizophrenia!
+             So there you are! another reason not to do drugs""")
+            if self.substance_use == "yes":
+                print("""Oh boy! we gotta get you clean!!! Those things can kill! Weed alone! One day you think its harmless and take a pull of a joint!
+            the next day you fight a grizzly bear with an axe who's actually your underage son(surprise surprise! it causes schizophrenia!
+            please please please! you have to reach out to your local agencies that support the drug addicts before it's too late!
+            you do yourself a favour and just about anybody else apart from that Escobar bloke you got your cocaine off from.
+            To find the center nearest to you please review the information section of our website""")
+            if self.substance_use == "x":
+                print(""" it appears that we both know the answer to the question... And one thing that we must absolutely try and do is to get you clean! because you know what?
+                it kills! (bot's spitting facts!)
+              	reach out to your local agency and get yourself clean before its too late!, you're doing yourself a favour and just about anybody else,
+                to find the center nearest to you please review the information section of our website""")
+        else:
+            print("okay lets skip...")
+
+    def patterns_adv(self):
+        pattern = Behavioural_health.individual[0]['behavioral patterns']
+        print("you have indicated your behavior pattern to be on the scale from 0 - 100: ", pattern)
+        print("do you want me to advise you?")
+        adv_p = input().lower()
+        if adv_p == "yes":
+            if 0 <= pattern <= 30:
+                print("""not everybody is perfect! your goal should be to work on yourself, that means, meditate from time to time"
+                      engage in an activity that relaxes you and teaches you to respect others! for example, Karate! its a martial art
+                      that teaches you discipline, the way of the fist and control! any activity like that would be perfect for you....
+                      have you heard about the hakuna matata? it means live with no worries!
+                      embrace this philosophy and you life will get easier!""")
+            if 31 <= pattern <= 65:
+                print("""you're not doing too bad! there's room for improvement but you are already doing fine! Remember to breathe in the stressful situations
+                and never bite more than you can chew! the most important part
+                remember one thing
+                one and only
+                just this one
+                HAKUNA
+                MATATA
+                no worries!, you leave your worries behind, you will excel in whatever you're doing""")
+            if 66 <= pattern <= 100:
+                print(""" HAKUNA MATATA!!!! you're doing well! live with no worries and no worries will affect your
+                behavior patterns! keep doing what you're doing, do what you love and never stop!""")
+
+        else:
+            print("okay lets skip...")
+ def relationship_adv(self):
+        relationship = Behavioural_health.individual[0]['interpersonal relationships']
+        print("your response to the question on interpersonal relationships was: ", relationship)
+        print("do you want me to advise you?")
+        adv_r = input().lower()
+        if adv_r == "yes":
+            if relationship == "yes":
+                print("""We have all been there brother! embrace the Hakuna Matata philosophy and don't worry!
+                we cannot get along with everybody, some people are naturally drawn to us while others are not.
+                Few tips!
+                brush your teeth
+                do your hair
+                take a shower
+                (every day)
+
+                Engage in different activities that you love! be it music, airsoft you name it!
+                the more you do the more outgoing and knowing you become, that way you will be
+                able to start a conversation on any topic!
+                never position yourself as knowing more than others! as that's a fine way to be
+                labelled a nerd!
+                Most importantly! never forget! Be confident! we only live once!!! and if an interaction
+                won't go well! you will never see the person again!
+                sooooooo
+                HAKUNA MATATAAAAAAAAAAAAAAAA!""")
+            elif relationship == "no":
+                print("Oh, you're all Mr. Charisma, aren't you??? Keep on girlbossin' and slaying, queen!")
+
+        else:
+            print("okay lets skip...")
+
+# =======================================================================================
+#Greeting Part at start:
+
+def main():
+    while True:
+        print("""Hello! my name is DocBot
+I am your mostly friendly advisor
+with anything health related!""")
+        print("""Press 1 for physical health advice
+Press 2 for mental health advice
+press 3 for social health advice
+press 4 for the behavioral health advice
+press 5 for us to see eachother another day :)""")
+
+        selection= input("Select an option: ")
+        if selection == "1":
+            advice =PhysicalHealthAdvice()
+            advice.BMI()
+        elif selection =="2":
+            MentalHealthAdvisor()
+
+        elif selection =="3":
+            SocialHealthChatbot()
+
+            if SocialHealthChatbot.socialHealthresponse:
+              SH = pd.DataFrame([SocialHealthChatbot.socialHealthresponse],
+                            columns=['fr_friends_int', 'sharing_feelings',
+                                   'social_event_part_fr', 'support_network',
+                                   'healthy_boundaries'])
+              if os.path.exists("SH_individual_data.xlsx"):
+                try:
+                  existing_data = pd.read_excel("SH_individual_data.xlsx")
+                  required_columns = ['fr_friends_int', 'sharing_feelings', 'social_event_part_fr', 'support_network', 'healthy_boundaries']
+                  if not existing_data[(existing_data[required_columns] == SH[required_columns].iloc[0]).all(axis=1)].empty:
+                    print("Entry already exists, skipping append.")
+                  else:
+                    SH = pd.concat([existing_data, SH], ignore_index=True)
+                except KeyError:
+                  print("File exists but has different format or is empty. Creating new DataFrame with expected columns.")
+                  existing_data = pd.DataFrame(columns=['fr_friends_int', 'sharing_feelings', 'social_event_part_fr', 'support_network', 'healthy_boundaries'])
+
+                  SH = pd.concat([existing_data,SH],ignore_index=True )
+            else:
+
+              SH = pd.DataFrame(columns=['fr_friends_int', 'sharing_feelings',
+                                         'social_event_part_fr', 'support_network',
+                                         'healthy_boundaries'])
+
+              SH.to_excel("SH_individual_data.xlsx", index=False)
+
+
+            SH.to_excel("SH_individual_data.xlsx", index=False)
+            SocialHealthChatbot.socialHealthresponse = []
+
+        elif selection =="4":
+            Behavioural_health()
+            BH = pd.DataFrame(Behavioural_health.individual)
+
+            if os.path.exists("individual_data.xlsx"):
+              existing_data = pd.read_excel("individual_data.xlsx")
+            else:
+                existing_data = pd.DataFrame()
+
+            if not existing_data.empty and BH.equals(existing_data.iloc[[0]]):
+              print("Entry already exists, skipping append.")
+            else:
+              BH = pd.concat([existing_data, BH], ignore_index=True)
+
+            BH.to_excel("individual_data.xlsx", index=False)
+
+        elif selection == "5":
+            print("DocBot out... Goodbye!")
+            break
+
+if __name__ == "__main__":
+    main()
