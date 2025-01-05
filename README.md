@@ -20,6 +20,7 @@ analyze the lifestyle and patterns ("passive aggressive tendencies", "hostility"
 
 # Result of the Chatbot
 ![image](https://github.com/user-attachments/assets/af99194f-bc3f-4b08-a7bb-2da567e3a4ff)
+![image](https://github.com/user-attachments/assets/2eaa40a3-def9-4712-9cdd-51220c9bac20)
 ![image](https://github.com/user-attachments/assets/cd37f596-ec10-4a1e-991b-5c130a9a8419)
 
 
